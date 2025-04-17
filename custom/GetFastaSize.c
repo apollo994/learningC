@@ -1,29 +1,22 @@
 #include <stdio.h>
 
-#define IN 1
-#define OUT 0
+int main() {
 
-int main(){
-    
-    unsigned long  count;
-    int current, head;
-    
-    count = 0;
+  unsigned long count;
+  char current;
 
-    while ((current = getchar()) != EOF){
-        
-        if (current == '>')
-            head = IN;
-        else if (head == IN && current != '\n')
-            ;
-        else if (head == IN && current == '\n')
-            head = OUT;
-        else if (head == OUT && current != '\n')
-            ++count;
-        else if (head == OUT && current == '\n')
-            ;
+  count = 0;
+
+  while ((current = getchar()) != EOF) {
+
+    if (current == '>') {
+      while ((current = getchar()) != '\n')
+        ;
     }
-    
-    printf("%.0lu\n", count);
-    return 0; 
+
+    if (current != '\n')
+      ++count;
+  }
+  printf("%.0lu\n", count);
+  return 0;
 }
