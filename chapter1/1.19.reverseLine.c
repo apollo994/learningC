@@ -22,7 +22,7 @@ void reverse(char line[], int len) {
   i = len - 2; // last index before \n
 
   /* if len is not know, i can be founf as follow
-  while (line[0] != '\0') // find index of end
+  while (line[i] != '\0') // find index of end
     ++i;
   --i;
   if (s[i] == '\n')
