@@ -19,7 +19,7 @@ int removeTrailings(char line[], int len) {
   int i = 2;
   int new_len;
   // check for spaces and \t before \0
-  while (line[len - i] == ' ' || line[len - i] == '\t') {
+  while (i <= len && (line[len - i] == ' ' || line[len - i] == '\t')) {
     line[len - i] = '\0';
     ++i;
   }
@@ -42,23 +42,25 @@ int main() {
 
     ++line_counter;
 
-    if (line[len - 1] == '\n') {  // When the end of line is encountered
-      if (len == 1)   // when line is empty
-        ;
+    if (line[len - 1] == '\n') { // When the end of line is encountered
+      if (len == 1)              // when line is empty
+        continue;
       // when there a char to remove is found before end of line
-      else if (line[len - 2] == ' ' || line[len - 2] == '\t') {   
+      if (line[len - 2] == ' ' || line[len - 2] == '\t') {
         new_len = removeTrailings(line, len);
         if (new_len > 0) // print only if there is still something left
           printf("%s\n", line);
-      } else {
-        printf("%s", line);
+        continue;
       }
-    } else {
-      while ((c = getchar()) != EOF && c != '\n') {  // continue reading to consume chars
-        ;
-      }
-      printf("[Line %i is too long for me! (max %i charachters)]\n",
-             line_counter, MAXLINE);
+      printf("%s", line);
+      continue;
     }
+    
+    while ((c = getchar()) != EOF &&
+           c != '\n') { // continue reading to consume chars
+      ;
+    }
+    printf("[Line %i is too long for me! (max %i charachters)]\n", line_counter,
+           MAXLINE);
   }
 }

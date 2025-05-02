@@ -14,67 +14,48 @@ int getLineLonger(char s[], int lim) {
   return i;
 }
 
-int removeTrailings(char line[], int len) {
+void reverse(char line[], int len) {
 
-  int i = 2;
-  int new_len;
-  // check for spaces and \t before \0
-  while (line[len - i] == ' ' || line[len - i] == '\t') {
-    line[len - i] = '\0';
+  char tmp;
+  int i, j;
+
+  i = len - 2; // last index before \n
+
+  /* if len is not know, i can be founf as follow
+  while (line[0] != '\0') // find index of end
     ++i;
+  --i;
+  if (s[i] == '\n')
+    --i;
+  */
+
+  j = 0;
+
+  while (j < i) {
+
+    tmp = line[j];
+    line[j] = line[i];
+    line[i] = tmp;
+    ++j;
+    --i;
   }
-  // return new length to avoid printing empty lines
-  new_len = len - i;
-
-  return new_len;
-}
-
-int reverse(char line[], char revline[], int len) {
-    
-  char c = ' ';
-  int i = 0;
-    // printf("i = %c, len = %c", i,len);
-  // for (int i = 0; i < len - 1; ++i) {
-  while (i < len-1) {
-    
-    // printf("i = %c, len = %c", i, len);
-    c = line[i];
-    revline[len - i - 2 ] = c;
-    ++i;
-  }
-
-  return 0;
 }
 
 int main() {
 
-  int len = 0;
-  int max = 0;
-  int c = 0;
-  int line_counter = 0;
-  int new_len = 0;
+  int len;
+  int line_counter;
+  char c;
   char line[MAXLINE];
-  char revline[MAXLINE];
 
   while ((len = getLineLonger(line, MAXLINE)) > 0) {
 
     ++line_counter;
+    if (line[len - 1] == '\n') {
+      printf("%s", line);
+      reverse(line, len);
+      printf("%s", line);
 
-    if (line[len - 1] == '\n') { // When the end of line is encountered
-      if (len == 1)              // when line is empty
-        ;
-      // when there a char to remove is found before end of line
-      else if (line[len - 2] == ' ' || line[len - 2] == '\t') 
-        new_len = removeTrailings(line, len);
-        if (new_len > 0){ // print only if there is still something left
-          printf("%s\n", line);
-          reverse(line, revline, new_len);
-          printf("%s\n", revline);
-      } else {
-        printf("%s", line);
-        reverse(line, revline, len);
-        printf("%s", revline);
-      }
     } else {
       while ((c = getchar()) != EOF &&
              c != '\n') { // continue reading to consume chars
